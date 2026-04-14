@@ -10,11 +10,22 @@ app.use(cors());
 app.use(express.json());
 
 const LANGUAGE_MAP = {
-  cpp17:  { language: "cpp17",  versionIndex: "0" },
-  c:      { language: "c",      versionIndex: "5" },
-  python: { language: "python3", versionIndex: "4" },
-  java:   { language: "java",   versionIndex: "4" },
-  js:     { language: "nodejs", versionIndex: "4" },
+  cpp17:   { language: "cpp17",    versionIndex: "0" },
+  cpp14:   { language: "cpp14",    versionIndex: "0" },
+  c:       { language: "c",        versionIndex: "5" },
+  python3: { language: "python3",  versionIndex: "4" },
+  python2: { language: "python2",  versionIndex: "3" },
+  java:    { language: "java",     versionIndex: "4" },
+  js:      { language: "nodejs",   versionIndex: "4" },
+  rust:    { language: "rust",     versionIndex: "4" },
+  go:      { language: "go",       versionIndex: "4" },
+  kotlin:  { language: "kotlin",   versionIndex: "3" },
+  csharp:  { language: "csharp",   versionIndex: "4" },
+  ruby:    { language: "ruby",     versionIndex: "4" },
+  php:     { language: "php",      versionIndex: "4" },
+  swift:   { language: "swift",    versionIndex: "4" },
+  bash:    { language: "bash",     versionIndex: "4" },
+  scala:   { language: "scala",    versionIndex: "4" },
 };
 
 app.post("/run", async (req, res) => {
@@ -37,10 +48,10 @@ app.post("/run", async (req, res) => {
     const data = response.data;
 
     res.json({
-      output:    data.output || "",
-      memory:    data.memory,
-      cpuTime:   data.cpuTime,
-      isSuccess: data.isExecutionSuccess,
+      output:     data.output || "",
+      memory:     data.memory,
+      cpuTime:    data.cpuTime,
+      isSuccess:  data.isExecutionSuccess,
       isCompiled: data.isCompiled,
     });
   } catch (err) {
