@@ -20,7 +20,7 @@ const MONACO_LANG = {
 };
 
 const DEFAULT_CODE = {
-  cpp17: `#include <iostream>
+  cpp17: `#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
