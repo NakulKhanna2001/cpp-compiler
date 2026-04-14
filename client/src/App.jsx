@@ -3,6 +3,65 @@ import Editor from "@monaco-editor/react";
 import axios from "axios";
 import "./App.css";
 
+function LangDropdown({ languages, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const current = languages.find(l => l.value === value);
+
+  // Close on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // Group languages
+  const groups = languages.reduce((acc, lang) => {
+    if (!acc[lang.group]) acc[lang.group] = [];
+    acc[lang.group].push(lang);
+    return acc;
+  }, {});
+
+  return (
+    <div className="lang-dd-root" ref={ref}>
+      <button className="lang-dd-trigger" onClick={() => setOpen(o => !o)}>
+        <span className="lang-dd-current">{current?.label}</span>
+        <svg className={`lang-dd-chevron ${open ? "open" : ""}`} width="10" height="6" viewBox="0 0 10 6" fill="none">
+          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+
+      {open && (
+        <div className="lang-dd-menu">
+          {Object.entries(groups).map(([group, langs]) => (
+            <div key={group} className="lang-dd-group">
+              <div className="lang-dd-group-label">{group}</div>
+              {langs.map(lang => (
+                <button
+                  key={lang.value}
+                  className={`lang-dd-item ${lang.value === value ? "selected" : ""}`}
+                  onClick={() => { onChange(lang.value); setOpen(false); }}
+                >
+                  <span className="lang-dd-check">
+                    {lang.value === value && (
+                      <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                        <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </span>
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const LANGUAGES = [
   { label: "C++ 17",   value: "cpp17",   ext: "cpp", group: "C/C++" },
   { label: "C++ 14",   value: "cpp14",   ext: "cpp", group: "C/C++" },
@@ -150,13 +209,6 @@ function RunIcon({ spinning }) {
   );
 }
 
-// Group languages for the dropdown
-const LANG_GROUPS = LANGUAGES.reduce((acc, lang) => {
-  if (!acc[lang.group]) acc[lang.group] = [];
-  acc[lang.group].push(lang);
-  return acc;
-}, {});
-
 export default function App() {
   const [language,    setLanguage]    = useState("cpp17");
   const [code,        setCode]        = useState(DEFAULT_CODE["cpp17"]);
@@ -180,8 +232,7 @@ export default function App() {
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, handleRun);
   }
 
-  function handleLanguageChange(e) {
-    const lang = e.target.value;
+  function handleLanguageChange(lang) {
     setLanguage(lang);
     setCode(DEFAULT_CODE[lang] || "");
     setOutput("");
@@ -233,23 +284,11 @@ export default function App() {
             <span className="logo-bracket">{"}}"}</span>
           </div>
           <div className="header-divider" />
-          {/* Language dropdown grouped */}
-          <div className="lang-selector">
-            <select
-              className="lang-dropdown"
-              value={language}
-              onChange={handleLanguageChange}
-            >
-              {Object.entries(LANG_GROUPS).map(([group, langs]) => (
-                <optgroup key={group} label={group}>
-                  {langs.map(l => (
-                    <option key={l.value} value={l.value}>{l.label}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-            <span className="lang-arrow">▾</span>
-          </div>
+          <LangDropdown
+            languages={LANGUAGES}
+            value={language}
+            onChange={handleLanguageChange}
+          />
         </div>
 
         <div className="header-right">
