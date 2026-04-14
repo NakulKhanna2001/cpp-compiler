@@ -384,6 +384,128 @@ body {
 .status-verdict.ok  { color: var(--green); text-shadow: 0 0 8px #4ade8060; }
 .status-verdict.err { color: var(--red);   text-shadow: 0 0 8px #f8717160; }
 
+/* ── Status shortcuts btn ────────────────────────── */
+.status-shortcuts-btn {
+  background: none; border: none;
+  color: var(--text3); font-family: var(--mono); font-size: 11px;
+  cursor: pointer; padding: 0;
+  transition: color 0.15s;
+}
+.status-shortcuts-btn:hover { color: var(--accent); }
+
+/* ── Icon buttons (header actions) ──────────────── */
+.icon-btn {
+  background: none; border: 1px solid transparent;
+  color: var(--text3); font-family: var(--mono); font-size: 11px;
+  padding: 4px 8px; border-radius: 4px;
+  cursor: pointer; white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.icon-btn:hover {
+  color: var(--text); border-color: var(--border2);
+  background: var(--bg4);
+}
+
+/* Font size control */
+.font-ctrl { display: flex; align-items: center; gap: 4px; }
+.font-size-label {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text3); min-width: 20px; text-align: center;
+}
+
+/* Panel header right side */
+.panel-header-right { display: flex; align-items: center; gap: 6px; }
+
+/* Small clear/copy button inside panel header */
+.panel-action-btn {
+  background: none; border: none;
+  color: var(--text3); font-size: 11px;
+  padding: 2px 5px; border-radius: 3px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.panel-action-btn:hover { color: var(--text); background: var(--bg4); }
+
+/* ── Toast ───────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
+  background: var(--bg4); border: 1px solid var(--border2);
+  color: var(--text); font-family: var(--mono); font-size: 12px;
+  padding: 8px 18px; border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 1000;
+  animation: toastIn 0.2s ease;
+  pointer-events: none;
+}
+.toast-success { border-color: var(--green); color: var(--green); }
+.toast-warn    { border-color: var(--accent); color: var(--accent); }
+.toast-info    { border-color: var(--border2); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Shortcuts Modal ─────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.15s ease;
+}
+.modal {
+  background: #16161e;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  width: 420px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+  overflow: hidden;
+  animation: modalIn 0.18s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(-8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title {
+  font-family: var(--display); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--text);
+}
+.modal-close {
+  background: none; border: none;
+  color: var(--text3); font-size: 14px;
+  cursor: pointer; padding: 2px 6px; border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.modal-close:hover { color: var(--text); background: var(--bg4); }
+
+.modal-body { padding: 8px 0 12px; }
+.shortcut-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 18px;
+  transition: background 0.1s;
+}
+.shortcut-row:hover { background: var(--bg4); }
+.shortcut-desc { font-size: 12px; color: var(--text2); }
+.shortcut-keys { display: flex; align-items: center; gap: 3px; }
+kbd {
+  font-family: var(--mono); font-size: 10px;
+  background: var(--bg4); border: 1px solid var(--border2);
+  border-radius: 4px; padding: 2px 6px;
+  color: var(--text); box-shadow: 0 1px 0 var(--border2);
+}
+.plus { font-size: 10px; color: var(--text3); margin: 0 1px; }
+
+/* ── Error line highlight (Monaco) ───────────────── */
+.error-line-highlight {
+  background: rgba(248, 113, 113, 0.08) !important;
+  border-left: 2px solid #f87171 !important;
+}
+
 /* ── Scrollbars ──────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
